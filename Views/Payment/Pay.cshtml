@@ -1,0 +1,14 @@
+﻿
+@model WebApplication2.Models.Booking
+
+<h2>Invoice for Booking ID: @Model.Id</h2>
+
+<p>Car: @Model.Car.Make</p>
+<p>Start Date: @Model.StartDate.ToString("dd/MM/yyyy")</p>
+<p>End Date: @Model.EndDate.ToString("dd/MM/yyyy")</p>
+<p>Total: ₹@((Model.EndDate - Model.StartDate).Days * Model.Car.PricePerDay)</p>
+
+<form method="post" action="@Url.Action("Pay", "Payment", new { bookingId = Model.Id })">
+    <button type="submit" name="decision" value="success" class="btn btn-success">Pay Now</button>
+    <button type="submit" name="decision" value="cancel" class="btn btn-danger">Cancel Payment</button>
+</form>

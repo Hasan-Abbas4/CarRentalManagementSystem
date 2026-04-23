@@ -1,0 +1,63 @@
+﻿@model WebApplication2.Models.Car
+
+@{
+    ViewBag.Title = "Add New Car";
+}
+
+<h2 class="text-center mb-4">Add New Car</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Add a New Car</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Make, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Make, new { @class = "form-control form-control-lg", placeholder = "Enter Car Make" })
+                            @Html.ValidationMessageFor(m => m.Make, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Model, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Model, new { @class = "form-control form-control-lg", placeholder = "Enter Car Model" })
+                            @Html.ValidationMessageFor(m => m.Model, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Category, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Category, new { @class = "form-control form-control-lg", placeholder = "Enter Car Category" })
+                            @Html.ValidationMessageFor(m => m.Category, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PricePerDay, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.PricePerDay, new { @class = "form-control form-control-lg", placeholder = "Enter Price Per Day" })
+                            @Html.ValidationMessageFor(m => m.PricePerDay, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.IsAvailable, new { @class = "control-label" })
+                            <div class="form-check">
+                                @Html.CheckBoxFor(m => m.IsAvailable, new { @class = "form-check-input" })
+                                <label class="form-check-label" for="IsAvailable">Is the car available?</label>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.IsAvailable, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-success btn-lg mr-2">Save</button>
+                            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary btn-lg" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

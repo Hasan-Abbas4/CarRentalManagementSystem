@@ -1,0 +1,19 @@
+﻿@model WebApplication2.Models.Booking
+
+<h2>Invoice</h2>
+
+<div class="invoice-details">
+    <p><strong>Car:</strong> @Model.Car.Make @Model.Car.Model</p>
+    <p><strong>Rental Duration:</strong> @Model.StartDate.ToShortDateString() - @Model.EndDate.ToShortDateString()</p>
+    <p><strong>Total Price:</strong> Pkr.@Model.TotalPrice</p>
+
+    @if (Model.DiscountedPrice < Model.TotalPrice)
+    {
+        <p><strong>Discount Applied:</strong> Pkr.@(Model.TotalPrice - Model.DiscountedPrice)</p>
+        <p><strong>Discounted Price:</strong> Pkr.@Model.DiscountedPrice</p>
+    }
+    else
+    {
+        <p><strong>No Discount Applied</strong></p>
+    }
+</div>

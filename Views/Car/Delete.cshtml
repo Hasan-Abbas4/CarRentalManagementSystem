@@ -1,0 +1,51 @@
+﻿@model WebApplication2.Models.Car
+
+@{
+    ViewBag.Title = "Delete Car";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4>Delete Car</h4>
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center text-danger">Are you sure you want to delete this car?</h3>
+
+                    <div class="form-group">
+                        <h4>Car Details</h4>
+                        <hr />
+                        <dl class="row">
+                            <dt class="col-sm-4">Make:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Make)</dd>
+
+                            <dt class="col-sm-4">Model:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Model)</dd>
+
+                            <dt class="col-sm-4">Category:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.Category)</dd>
+
+                            <dt class="col-sm-4">Price Per Day:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.PricePerDay)</dd>
+
+                            <dt class="col-sm-4">Available:</dt>
+                            <dd class="col-sm-8">@Html.DisplayFor(model => model.IsAvailable)</dd>
+                        </dl>
+                    </div>
+
+                    <div class="form-group text-center">
+                        @using (Html.BeginForm())
+                        {
+                            @Html.AntiForgeryToken()
+                            <a href="~/Views/Admin/CreateCoupon.cshtml">~/Views/Admin/CreateCoupon.cshtml</a>
+                            <button type="submit" class="btn btn-danger btn-lg">Delete</button>
+                            <a href="@Url.Action("Index")" class="btn btn-secondary btn-lg ml-3">Cancel</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

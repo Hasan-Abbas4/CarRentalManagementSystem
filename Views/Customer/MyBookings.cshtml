@@ -1,0 +1,93 @@
+﻿@model IEnumerable<WebApplication2.Models.Booking>
+
+@{
+    ViewBag.Title = "My Bookings";
+}
+
+@if (TempData["Reminder"] != null)
+{
+    <script>
+        alert('@TempData["Reminder"]');
+    </script>
+}
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+
+<h2>My Bookings</h2>
+
+@if (!Model.Any())
+{
+    <p>You haven't booked any cars yet.</p>
+}
+else
+{
+    <div class="mb-3">
+        @Html.ActionLink("⬅ Back", "Dashboard", "Customer", null, new { @class = "btn btn-secondary" })
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Car</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Payment</th>
+                <th>Actions</th>
+                <th>Driver Name</th>
+                <th>Leave a Review</th>
+                <th>Damage Report</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var booking in Model)
+            {
+                <tr>
+                    <td>@(booking.Car != null ? booking.Car.Make + " " + booking.Car.Model : "N/A")</td>
+                    <td>@booking.StartDate.ToShortDateString()</td>
+                    <td>@booking.EndDate.ToShortDateString()</td>
+                    <td>@booking.Status</td>
+                    <td>@booking.PaymentStatus</td>
+                    <td>
+                        <a href="@Url.Action("Invoice", "Customer", new { id = booking.Id })" class="btn btn-info btn-sm mb-1">View Invoice</a>
+                        @if (booking.PaymentStatus != "Paid")
+                        {
+                            <a href="@Url.Action("Pay", "Payment", new { bookingId = booking.Id })" class="btn btn-success btn-sm mb-1">Pay Now</a>
+                        }
+                        <a href="@Url.Action("DownloadInvoice", "Customer", new { id = booking.Id })" class="btn btn-success btn-sm mb-1">Download PDF</a>
+                    </td>
+                    <td>@(booking.Driver != null ? booking.Driver.Name : "None")</td>
+
+                    <td>
+                        @if (booking.PaymentStatus == "Paid")
+                        {
+                            <a href="@Url.Action("Create", "Review", new { carId = booking.CarId, bookingId = booking.Id })" class="btn btn-primary btn-sm">Leave a Review</a>
+                        }
+                    </td>
+
+                    <td>
+                        @{
+                            var damage = booking.DamageReports?.FirstOrDefault();
+                        }
+
+                        @if (damage == null)
+                        {
+                            <a href="@Url.Action("ReportDamage", "Customer", new { bookingId = booking.Id })" class="btn btn-danger btn-sm">Report Damage</a>
+                        }
+                        else
+                        {
+                            <div class="text-wrap small">
+                                <strong>Status:</strong> @damage.Status <br />
+                                <strong>Repair Cost:</strong> @(damage.RepairCost.HasValue ? "Pkr." + damage.RepairCost : "Pending") <br />
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

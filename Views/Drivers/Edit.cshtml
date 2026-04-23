@@ -1,0 +1,55 @@
+﻿@model WebApplication2.Models.Driver
+
+@{
+    ViewBag.Title = "Edit Driver";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary">Edit Driver</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4 class="text-info">Driver Information</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="Name">@Html.DisplayNameFor(model => model.Name)</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="ContactNumber">@Html.DisplayNameFor(model => model.ContactNumber)</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label" for="LicenseNumber">@Html.DisplayNameFor(model => model.LicenseNumber)</label>
+                    <div class="col-sm-9">
+                        @Html.EditorFor(model => model.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LicenseNumber, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group mt-3 text-center">
+                    <button type="submit" class="btn btn-primary btn-lg">Save</button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="mt-3 text-center">
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary btn-sm" })
+    </div>
+</div>

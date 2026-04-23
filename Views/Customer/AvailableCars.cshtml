@@ -1,0 +1,84 @@
+﻿@model IEnumerable<WebApplication2.Models.Car>
+
+@{
+    ViewBag.Title = "Available Cars";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<h2>Available Cars</h2>
+
+@if (!Model.Any())
+{
+    <p>No cars are currently available.</p>
+}
+else
+{
+    <form method="get" class="form-inline mb-3">
+        <label for="minRating">Minimum Rating: </label>
+        <select name="minRating" class="form-control ml-2 mr-2">
+            <option value="">All</option>
+            @for (int i = 1; i <= 5; i++)
+            {
+                <option value="@i" @(ViewBag.MinRating == i ? "selected" : "")>@i+</option>
+            }
+        </select>
+
+        <label for="sortOrder">Sort by: </label>
+        <select name="sortOrder" class="form-control ml-2 mr-2">
+            <option value="">Default</option>
+            <option value="rating_desc" @(ViewBag.SortOrder == "rating_desc" ? "selected" : "")>Rating (High to Low)</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Apply</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Model</th>
+                <th>Brand</th>
+                <th>Price/Day</th>
+                <th>Rating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@car.Model</td>
+                    <td>@car.Make</td>
+                    <td>@car.PricePerDay</td>
+                    <td>
+                        @if (car.AverageRating > 0)
+                        {
+                            <span>@car.AverageRating.ToString("0.0") ★</span>
+                        }
+                        else
+                        {
+                            <span>No ratings yet</span>
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Book", "BookCar", "Customer", new { id = car.Id }, new { @class = "btn btn-primary mr-2" })
+
+                        @using (Html.BeginForm("Add", "Favorite", FormMethod.Post, new { @style = "display:inline;" }))
+                        {
+                            @Html.Hidden("carId", car.Id)
+                            <button type="submit" class="btn btn-outline-danger">❤ Add to Favorites</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-md-4 mt-3">
+        @Html.ActionLink("Back", "Dashboard", "Customer", null, new { @class = "btn btn-secondary" })
+    </div>
+}

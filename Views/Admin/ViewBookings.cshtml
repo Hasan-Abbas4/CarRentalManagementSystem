@@ -1,0 +1,123 @@
+﻿@model IEnumerable<WebApplication2.Models.Booking>
+
+@{
+    ViewBag.Title = "All Bookings";
+    var driverSelectList = ViewBag.DriverSelectList as SelectList;
+    string selectedEmail = ViewBag.SelectedEmail as string ?? "";
+    string selectedDate = ViewBag.SelectedDate as string ?? "";
+    int? selectedDriverId = ViewBag.SelectedDriverId as int?;
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">All Bookings</h2>
+        @if (TempData["AdminAction"] != null)
+        {
+            <script>
+                alert('@TempData["AdminAction"]');
+            </script>
+        }
+        <div>
+            @Html.ActionLink("Back to Dashboard", "Dashboard", "Admin", null, new { @class = "btn btn-secondary" })
+        </div>
+    </div>
+
+    @using (Html.BeginForm("ViewBookings", "Admin", FormMethod.Get))
+    {
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <input type="text" name="email" value="@selectedEmail" class="form-control" placeholder="User Email" />
+            </div>
+            <div class="col-md-3">
+                <input type="date" name="startDate" value="@selectedDate" class="form-control" />
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("driverId", driverSelectList ?? new SelectList(Enumerable.Empty<SelectListItem>()), "Filter by Driver", new { @class = "form-control" })
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex">
+                    <input type="submit" value="Filter" class="btn btn-primary w-100" />
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="@Url.Action("ViewBookings", "Admin")" class="btn btn-secondary">Clear Filters</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover table-bordered mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>User</th>
+                        <th>Car</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Driver</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>@booking.Id</td>
+                            <td>@(booking.User != null ? booking.User.FullName : "N/A")</td>
+                            <td>@(booking.Car != null ? booking.Car.Make + " " + booking.Car.Model : "N/A")</td>
+                            <td>@booking.StartDate.ToShortDateString()</td>
+                            <td>@booking.EndDate.ToShortDateString()</td>
+                            <td>@booking.Status</td>
+                            <td>
+                                @if (booking.Status == "Accepted" && booking.NeedsDriver)
+                                {
+                                    if (booking.DriverId == null)
+                                    {
+                                        using (Html.BeginForm("AssignDriver", "Admin", FormMethod.Post))
+                                        {
+                                            @Html.Hidden("bookingId", booking.Id)
+                                            @Html.DropDownList("driverId",
+                                                new SelectList(ViewBag.Drivers as List<WebApplication2.Models.Driver>, "Id", "Name"),
+                                                "Select Driver",
+                                                new { @class = "form-control mb-1" })
+                                            <button type="submit" class="btn btn-sm btn-primary mt-1">Assign</button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span>@(booking.Driver != null ? booking.Driver.Name : "N/A")</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>@(booking.Driver != null ? booking.Driver.Name : "N/A")</span>
+                                }
+                            </td>
+                            <td>
+                                @if (booking.Status == "Pending")
+                                {
+                                    <div class="d-flex">
+                                        <form method="post" style="display:inline-block;" action="@Url.Action("UpdateBookingStatus", "Admin")">
+                                            @Html.Hidden("id", booking.Id)
+                                            @Html.Hidden("status", "Accepted")
+                                            <input type="submit" value="Accept" class="btn btn-success btn-sm me-2" />
+                                        </form>
+                                        <form method="post" style="display:inline-block;" action="@Url.Action("UpdateBookingStatus", "Admin")">
+                                            @Html.Hidden("id", booking.Id)
+                                            @Html.Hidden("status", "Rejected")
+                                            <input type="submit" value="Reject" class="btn btn-warning btn-sm" />
+                                        </form>
+                                    </div>
+                                }
+                                <a href="@Url.Action("DeleteBooking", "Admin", new { id = booking.Id })" class="btn btn-danger btn-sm mt-2" onclick="return confirm('Are you sure you want to delete this booking?');">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <!-- Hero Section -->
+    <section class="row text-center mb-5">
+        <div class="col">
+            <h1 id="title" class="display-4 text-primary fw-bold">Welcome to CarRental</h1>
+            <p class="lead text-muted">
+                Rent your dream car with ease and confidence. Affordable prices, wide selection, and quick bookings.
+            </p>
+            <p>
+                <a href="@Url.Action("Login", "User")" class="btn btn-primary btn-lg">Browse Cars &raquo;</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <div class="row text-center">
+        <section class="col-md-4 mb-4">
+            <h2 class="text-dark">Quick & Easy Booking</h2>
+            <p>
+                Choose your car, select pickup & drop-off dates, and confirm your booking in just a few clicks.
+            </p>
+            <p>
+                <a class="btn btn-outline-primary" href="@Url.Action("Login", "User")">Start Booking &raquo;</a>
+            </p>
+        </section>
+
+        <section class="col-md-4 mb-4">
+            <h2 class="text-dark">Wide Range of Cars</h2>
+            <p>
+                From compact city cars to premium SUVs — we have vehicles for every occasion and budget.
+            </p>
+            <p>
+                <a class="btn btn-outline-primary" href="@Url.Action("About", "Home")">About &raquo;</a>
+            </p>
+        </section>
+
+        <section class="col-md-4 mb-4">
+            <h2 class="text-dark">24/7 Customer Support</h2>
+            <p>
+                Our support team is always ready to help you with your bookings, questions, or any issues.
+            </p>
+            <p>
+                <a class="btn btn-outline-primary" href="@Url.Action("Contact", "Home")">Contact Us &raquo;</a>
+            </p>
+        </section>
+    </div>
+</main>

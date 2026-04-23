@@ -1,0 +1,22 @@
+﻿@model WebApplication2.Models.DamageReport
+
+@{
+    ViewBag.Title = "Report Damage";
+}
+
+<h2>Report Damage</h2>
+
+@using (Html.BeginForm("ReportDamage", "Customer", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @* DO NOT include @Html.HiddenFor(m => m.Id) *@
+    @Html.HiddenFor(m => m.BookingId)
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description)
+        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 4 })
+    </div>
+
+    <button type="submit" class="btn btn-danger">Submit Report</button>
+}

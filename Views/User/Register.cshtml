@@ -1,0 +1,48 @@
+﻿@model WebApplication2.Models.User
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 500px;">
+        <h2 class="text-center text-primary mb-4">Create an Account</h2>
+
+        @using (Html.BeginForm("Register", "User", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.FullName, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.FullName, new { @class = "form-control form-control-lg", placeholder = "Enter your full name" })
+                @Html.ValidationMessageFor(m => m.FullName, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Email, new { @class = "form-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg", placeholder = "Enter your email" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-3">
+                @Html.LabelFor(m => m.Password, new { @class = "form-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", placeholder = "Enter a secure password" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group mb-4">
+                @Html.LabelFor(m => m.Role, new { @class = "form-label" })
+                @Html.DropDownListFor(m => m.Role, new SelectList(new[] { "Admin", "User" }), "Select Role", new { @class = "form-control form-control-lg" })
+                @Html.ValidationMessageFor(m => m.Role, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-success btn-lg">Register</button>
+            </div>
+        }
+
+        <div class="text-center mt-3">
+            <p class="text-muted">Already have an account? <a href="@Url.Action("Login", "User")" class="text-decoration-none">Login here</a></p>
+        </div>
+    </div>
+</div>

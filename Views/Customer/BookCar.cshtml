@@ -1,0 +1,54 @@
+﻿@model WebApplication2.Models.Booking
+@{
+    ViewBag.Title = "Book Car";
+    var car = ViewBag.Car as WebApplication2.Models.Car;
+}
+
+<h2>Book Car</h2>
+
+@if (car != null)
+{
+    <div class="mb-4">
+        <p><strong>Car:</strong> @car.Make @car.Model</p>
+        <p><strong>Price Per Day:</strong> ₹@car.PricePerDay</p>
+    </div>
+}
+
+@using (Html.BeginForm("SubmitBooking", "Customer", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(model => model.CarId)
+    @Html.HiddenFor(model => model.UserId)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.StartDate)
+        @Html.TextBoxFor(model => model.StartDate, new { @class = "form-control", type = "date", value = Model.StartDate.ToString("yyyy-MM-dd") })
+        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.EndDate)
+        @Html.TextBoxFor(model => model.EndDate, new { @class = "form-control", type = "date", value = Model.EndDate.ToString("yyyy-MM-dd") })
+        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+    </div>
+
+    <!-- Needs Driver Checkbox -->
+    <div class="form-group form-check mt-2">
+        @Html.CheckBoxFor(model => model.NeedsDriver, new { @class = "form-check-input" })
+        @Html.LabelFor(model => model.NeedsDriver, new { @class = "form-check-label" })
+    </div>
+
+    <!-- Coupon Code Field -->
+    <div class="form-group">
+        @Html.LabelFor(model => model.CouponCode, new { @class = "form-label" })
+        @Html.TextBoxFor(model => model.CouponCode, new { @class = "form-control", placeholder = "Enter coupon code (optional)" })
+        @Html.ValidationMessageFor(model => model.CouponCode, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group mt-3">
+        <button type="submit" class="btn btn-success">Confirm Booking</button>
+        @Html.ActionLink("Back", "Dashboard", "Customer", null, new { @class = "btn btn-secondary ml-2" })
+    </div>
+}

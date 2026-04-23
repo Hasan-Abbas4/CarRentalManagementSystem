@@ -1,0 +1,60 @@
+﻿@model WebApplication2.Models.Car
+
+@{
+    var reviews = (List<WebApplication2.Models.Review>)ViewBag.Reviews ?? new List<WebApplication2.Models.Review>();
+    double avgRating = ViewBag.AvgRating != null ? (double)ViewBag.AvgRating : 0;
+}
+
+<h2>@Model.Make @Model.Model</h2>
+<p>@Model.Category</p>
+
+<h4>Average Rating:</h4>
+<p>
+    @for (int i = 1; i <= 5; i++)
+    {
+        if (i <= avgRating)
+        {
+            <span style="color: gold;">&#9733;</span> <!-- Full star for ratings -->
+        }
+        else
+        {
+            <span style="color: lightgray;">&#9733;</span> <!-- Empty star for ratings -->
+        }
+    }
+    (@avgRating.ToString("0.0")/5)
+</p>
+
+<h4>Customer Reviews:</h4>
+
+@if (reviews.Count == 0)
+{
+    <p>No reviews yet.</p>
+}
+else
+{
+    foreach (var review in reviews)
+    {
+        <div class="border p-3 mb-3">
+            <strong>@review.User.FullName</strong>
+            <span class="text-warning">(@review.Rating ★)</span><br />
+            <em>@review.Comment</em><br />
+            <small class="text-muted">@review.DatePosted.ToShortDateString()</small>
+        </div>
+    }
+}
+
+<!-- Review Form Link -->
+@if (User.Identity.IsAuthenticated && ViewBag.CanReview == true)
+{
+    <a href="@Url.Action("Create", "Review", new { carId = Model.Id })" class="btn btn-primary">Leave a Review</a>
+}
+else if (User.Identity.IsAuthenticated)
+{
+    <p>You can only leave a review if you've completed a booking for this car.</p>
+}
+else
+{
+    <p>You must be logged in to leave a review.</p>
+}
+
+@Html.ActionLink("Back to Cars", "Index", "Car", null, new { @class = "btn btn-secondary" })

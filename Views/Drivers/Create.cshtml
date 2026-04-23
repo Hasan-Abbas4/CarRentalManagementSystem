@@ -1,0 +1,45 @@
+﻿@model WebApplication2.Models.Driver
+
+@{
+    ViewBag.Title = "Create Driver";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary">Create Driver</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h4>Driver Information</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.ContactNumber, htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.ContactNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.ContactNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.LabelFor(model => model.LicenseNumber, htmlAttributes: new { @class = "form-label" })
+                    @Html.EditorFor(model => model.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LicenseNumber, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary" })
+                </div>
+            </div>
+        </div>
+    }
+</div>

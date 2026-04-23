@@ -1,0 +1,45 @@
+﻿@model WebApplication2.Models.Driver
+
+@{
+    ViewBag.Title = "Driver Details";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary">Driver Details</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="text-info">Driver Information</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.ContactNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.ContactNumber)
+                </dd>
+
+                <dt class="col-sm-3">
+                    @Html.DisplayNameFor(model => model.LicenseNumber)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.LicenseNumber)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-warning btn-sm" }) |
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-secondary btn-sm" })
+        </p>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+﻿@model WebApplication2.Models.Coupon
+
+<h2>Edit Coupon</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Code)
+        @Html.TextBoxFor(model => model.Code, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.DiscountPercentage)
+        @Html.TextBoxFor(model => model.DiscountPercentage, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ExpiryDate)
+        @Html.TextBoxFor(model => model.ExpiryDate, new { @class = "form-control", type = "date" })
+    </div>
+
+    <div class="form-group form-check">
+        @Html.CheckBoxFor(model => model.IsActive, new { @class = "form-check-input" })
+        @Html.LabelFor(model => model.IsActive, new { @class = "form-check-label" })
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-success">Save Changes</button>
+        @Html.ActionLink("Back", "Coupons", "Admin", null, new { @class = "btn btn-secondary" })
+    </div>
+}

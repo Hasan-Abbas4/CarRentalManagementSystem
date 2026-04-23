@@ -1,0 +1,21 @@
+﻿@model IEnumerable<WebApplication2.Models.DamageReport>
+<h2>My Damage Claims</h2>
+<table class="table">
+    <tr>
+        <th>Car</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Repair Cost</th>
+        <th>Charged?</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Booking.Car.Make @item.Booking.Car.Model</td>
+            <td>@item.Description</td>
+            <td>@item.Status</td>
+            <td>@(item.RepairCost.HasValue ? "₹" + item.RepairCost : "-")</td>
+            <td>@(item.CustomerCharged ? "Yes" : "No")</td>
+        </tr>
+    }
+</table>

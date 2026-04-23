@@ -1,0 +1,24 @@
+﻿@model IEnumerable<WebApplication2.Models.Review>
+@{
+    ViewBag.Title = "Car Reviews";
+}
+
+<h2>Reviews</h2>
+
+@if (!Model.Any())
+{
+    <p>No reviews yet for this car.</p>
+}
+else
+{
+    foreach (var review in Model)
+    {
+        <div class="card mb-3 p-3 border rounded">
+            <strong>@review.User.FullName</strong>
+            <span class="text-warning">(@review.Rating ★)</span><br />
+            <em>@review.Comment</em><br />
+            <small class="text-muted">@review.DatePosted.ToShortDateString()</small>
+        </div>
+    }
+}
+
